@@ -3,10 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthContextProvider } from "./contexts/AuthContext";
-import Error from "./Error";
+import Error from "./components/Error";
+import Layout from "./components/Layout";
+import Login from "./components/Login/Login";
 
 const router = createBrowserRouter([
-  { path: "/", element: <div>Hello world!</div>, errorElement: <Error /> },
+  { path: "/", element: <Layout />, errorElement: <Error /> },
+  { path: "/login", element: <Login /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
