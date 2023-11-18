@@ -1,5 +1,5 @@
 export interface AuthContextInterface {
-  user: boolean;
+  user: string;
   dispatch: React.Dispatch<{ type: string }>;
 }
 

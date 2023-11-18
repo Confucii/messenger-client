@@ -3,16 +3,17 @@ import { AuthContextInterface } from "../interfaces";
 import getCookie from "../helpers/cookieHelper";
 
 export const AuthContext = createContext<AuthContextInterface>({
-  user: false,
+  user: "",
   dispatch: () => {},
 });
 
-function authReducer(state: { user: boolean }, action: { type: string }) {
+function authReducer(state: { user: string }, action: { type: string }) {
+  const user = getCookie("auth");
   switch (action.type) {
     case "checkAuthStatus":
-      return getCookie("auth") ? { user: true } : { user: false };
+      return user ? { user } : { user: "" };
     case "logout":
-      return { user: false };
+      return { user: "" };
     default:
       return state;
   }

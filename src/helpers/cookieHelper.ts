@@ -1,7 +1,7 @@
 export default function getCookie(name: string) {
   const nameEquals = name + "=";
   const cookieArray = document.cookie.split(";");
-  let verdict = false;
+  let verdict = "";
 
   cookieArray.forEach((cookie) => {
     while (cookie.charAt(0) === " ") {
@@ -9,7 +9,7 @@ export default function getCookie(name: string) {
     }
 
     if (cookie.indexOf(nameEquals) === 0) {
-      verdict = cookie.slice(nameEquals.length, cookie.length) === "true";
+      verdict = cookie.slice(nameEquals.length, cookie.length);
     }
   });
   return verdict;
