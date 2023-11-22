@@ -6,6 +6,9 @@ import { AuthContextProvider } from "./contexts/AuthContext";
 import Error from "./components/Error";
 import Layout from "./components/Layout";
 import Login from "./components/Login/Login";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   { path: "/", element: <Layout />, errorElement: <Error /> },
@@ -14,8 +17,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthContextProvider>
-      <RouterProvider router={router} />
-    </AuthContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

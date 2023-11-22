@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useContext, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { isLoginError } from "../../helpers/typeGuard";
+import { login } from "../../requests/userRequests";
 
 function Login() {
   const [form, setForm] = useState({
@@ -26,21 +26,7 @@ function Login() {
   async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_CLIENT_URL}/users/login`,
-        form,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        context.dispatch({ type: "checkAuthStatus" });
-        navigator("/", { replace: true });
-      }
+      login(form, navigator, context);
     } catch (error: unknown) {
       if (isLoginError(error)) {
         if (error.response.status === 400) setError(true);
