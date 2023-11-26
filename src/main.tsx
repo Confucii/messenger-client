@@ -7,12 +7,20 @@ import Error from "./components/Error";
 import Layout from "./components/Layout";
 import Login from "./components/Login/Login";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Register from "./components/Register/Register";
+import Placeholder from "./components/Placeholder/Placeholder";
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
-  { path: "/", element: <Layout />, errorElement: <Error /> },
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <Error />,
+    children: [{ index: true, element: <Placeholder /> }],
+  },
   { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

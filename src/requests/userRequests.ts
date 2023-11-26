@@ -23,3 +23,28 @@ export async function login(
     navigator("/", { replace: true });
   }
 }
+
+export async function register(
+  form: {
+    username: string;
+    password: string;
+    confirmPassword: string;
+    displayName: string;
+  },
+  navigator: NavigateFunction
+) {
+  const response = await axios.post(
+    `${import.meta.env.VITE_CLIENT_URL}/users/register`,
+    form,
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+
+  if (response.status === 200) {
+    navigator("/login", { replace: true });
+  }
+}

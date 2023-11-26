@@ -1,17 +1,24 @@
-import axios from "axios";
+import { useQuery } from "react-query";
+import { getChats } from "../../requests/chatRequests";
+import SidebarChat from "./SidebarChat";
+import { Chat } from "../../interfaces";
+import NoChats from "./NoChats";
 
 function Sidebar() {
-  function testSubmit() {
-    axios.post(
-      `${import.meta.env.VITE_CLIENT_URL}/messages/6556baf8e4d2fe3dd39deabe`,
-      { text: "boba" },
-      { withCredentials: true }
-    );
-  }
+  const { data } = useQuery({ queryKey: ["chats"], queryFn: getChats });
+
+  const chats = data?.data;
+
   return (
-    <>
-      <button onClick={testSubmit}>Push me daddy</button>
-    </>
+    <div>
+      <ul>
+        {chats?.length > 0 ? (
+          chats.map((chat: Chat) => <SidebarChat key={chat.id} chat={chat} />)
+        ) : (
+          <NoChats />
+        )}
+      </ul>
+    </div>
   );
 }
 

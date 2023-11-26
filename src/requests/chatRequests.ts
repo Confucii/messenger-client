@@ -5,7 +5,7 @@ export async function getChats() {
     withCredentials: true,
   });
 
-  return chats.data;
+  return chats;
 }
 
 export async function getChat(chatId: string) {
@@ -16,5 +16,5 @@ export async function getChat(chatId: string) {
     }
   );
 
-  return chat.data;
+  return chat;
 }

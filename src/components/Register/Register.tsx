@@ -2,12 +2,14 @@ import { useContext, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { isResponseError } from "../../helpers/typeGuard";
-import { login } from "../../requests/userRequests";
+import { register } from "../../requests/userRequests";
 
-function Login() {
+function Register() {
   const [form, setForm] = useState({
     username: "",
     password: "",
+    confirmPassword: "",
+    displayName: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const context = useContext(AuthContext);
@@ -26,8 +28,10 @@ function Login() {
   async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     try {
-      await login(form, navigator, context).catch();
+      await register(form, navigator);
     } catch (error: unknown) {
+      console.log(error);
+
       if (isResponseError(error)) {
         if (error.response.status === 400)
           setErrorMessage(error.response.data.error);
@@ -40,7 +44,7 @@ function Login() {
   ) : (
     <div className="">
       <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
+        <h2>Register</h2>
         <div className="">
           <label htmlFor="username">Username</label>
           <input
@@ -48,6 +52,16 @@ function Login() {
             name="username"
             id="username"
             value={form.username}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="">
+          <label htmlFor="displayName">Display Name</label>
+          <input
+            type="text"
+            name="displayName"
+            id="displayName"
+            value={form.displayName}
             onChange={handleChange}
           />
         </div>
@@ -61,14 +75,24 @@ function Login() {
             onChange={handleChange}
           />
         </div>
+        <div className="">
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleChange}
+          />
+        </div>
         {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
         <button className="">Submit</button>
       </form>
       <div>
-        Need an account? <Link to={"/register"}>Sign up</Link>
+        Have an account? <Link to={"/login"}>Log in</Link>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Register;

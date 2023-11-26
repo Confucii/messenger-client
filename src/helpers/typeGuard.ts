@@ -1,6 +1,6 @@
-import { LoginError } from "../interfaces";
+import { ResponseError } from "../interfaces";
 
-export function isLoginError(error: unknown): error is LoginError {
+export function isResponseError(error: unknown): error is ResponseError {
   const verdict =
     typeof error === "object" &&
     error &&

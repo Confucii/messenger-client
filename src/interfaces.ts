@@ -3,6 +3,18 @@ export interface AuthContextInterface {
   dispatch: React.Dispatch<{ type: string }>;
 }
 
-export interface LoginError {
-  response: { status: number };
+export interface ResponseError {
+  response: { status: number; data: { error: string } };
+}
+
+export interface Message {
+  sender: { displayName: string; id: string };
+  text: string;
+  timestamp: string;
+}
+
+export interface Chat {
+  id: string;
+  interlocutor: string;
+  messages: Message[];
 }
