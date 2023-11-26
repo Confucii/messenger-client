@@ -48,3 +48,15 @@ export async function register(
     navigator("/login", { replace: true });
   }
 }
+
+export async function getUsers(filter: string) {
+  if (filter) {
+    const response = await axios.get(
+      `${import.meta.env.VITE_CLIENT_URL}/users/${filter}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response;
+  }
+}

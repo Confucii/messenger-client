@@ -3,14 +3,30 @@ import { getChats } from "../../requests/chatRequests";
 import SidebarChat from "./SidebarChat";
 import { Chat } from "../../interfaces";
 import NoChats from "./NoChats";
+import { useState } from "react";
+import Header from "./Header";
+import { getUsers } from "../../requests/userRequests";
 
 function Sidebar() {
-  const { data } = useQuery({ queryKey: ["chats"], queryFn: getChats });
+  const chatData = useQuery({ queryKey: ["chats"], queryFn: getChats }).data;
+  const [filter, setFilter] = useState("");
+  const userData = useQuery({
+    queryKey: ["users", filter],
+    queryFn: async () => {
+      const data = await getUsers(filter);
+      return data;
+    },
+  }).data;
 
-  const chats = data?.data;
+  console.log(userData);
+
+  const chats = chatData?.data.filter((chat: Chat) =>
+    chat.interlocutor.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <div>
+      <Header setFilter={setFilter} />
       <ul>
         {chats?.length > 0 ? (
           chats.map((chat: Chat) => <SidebarChat key={chat.id} chat={chat} />)
