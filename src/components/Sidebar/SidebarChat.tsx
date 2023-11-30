@@ -1,13 +1,15 @@
 import { useContext } from "react";
 import { Chat } from "../../interfaces";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function SidebarChat({ chat }: { chat: Chat }) {
   const { user } = useContext(AuthContext);
   const message = chat.messages[0];
+  const navigator = useNavigate();
 
   return (
-    <li>
+    <li onClick={() => navigator(`/chat/${chat.id}`)}>
       <div>{chat.interlocutor}</div>
       <div>
         <span>

@@ -8,7 +8,11 @@ import Header from "./Header";
 import { getUsers } from "../../requests/userRequests";
 
 function Sidebar() {
-  const chatData = useQuery({ queryKey: ["chats"], queryFn: getChats }).data;
+  const chatData = useQuery({
+    queryKey: ["chats"],
+    queryFn: getChats,
+    refetchOnWindowFocus: false,
+  }).data;
   const [filter, setFilter] = useState("");
   const userData = useQuery({
     queryKey: ["users", filter],
@@ -16,6 +20,8 @@ function Sidebar() {
       const data = await getUsers(filter);
       return data;
     },
+    enabled: !!filter,
+    refetchOnWindowFocus: false,
   }).data;
 
   console.log(userData);
