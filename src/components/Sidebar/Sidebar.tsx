@@ -15,6 +15,7 @@ function Sidebar() {
   }).data;
 
   const [filter, setFilter] = useState("");
+
   const userData = useQuery({
     queryKey: ["users", filter],
     queryFn: async () => {
@@ -25,12 +26,14 @@ function Sidebar() {
     refetchOnWindowFocus: false,
   }).data;
 
+  console.log(userData);
+
   const chats = chatData?.filter((chat: ChatInterface) =>
     chat.interlocutor.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
-    <div>
+    <div className="border-r-2 border-gray-400">
       <Header setFilter={setFilter} />
       <ul>
         {chats?.length > 0 ? (

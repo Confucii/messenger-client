@@ -4,6 +4,8 @@ import { getChat } from "../../requests/chatRequests";
 import TextInput from "./TextInput";
 import Message from "./Message";
 import { MessageInterface } from "../../interfaces";
+import Header from "./Header";
+import useChatScroll from "../../hooks/useChatScroll";
 
 function Chat() {
   const { postId } = useParams();
@@ -19,12 +21,20 @@ function Chat() {
     refetchOnWindowFocus: false,
   }).data;
 
+  const ref = useChatScroll(chat);
+
   return (
-    <div>
-      {chat &&
-        chat.messages.map((message: MessageInterface) => (
-          <Message key={message.id} message={message} />
-        ))}
+    <div className="max-h-screen grid grid-rows-[50px_1fr_50px] grow">
+      {chat && <Header interlocutor={chat.interlocutor} />}
+      <div
+        className="h-full row-span-6 overflow-auto flex flex-col gap-2 py-4 scroll"
+        ref={ref}
+      >
+        {chat &&
+          chat.messages.map((message: MessageInterface) => (
+            <Message key={message.id} message={message} />
+          ))}
+      </div>
       <TextInput chatId={chat?.id} />
     </div>
   );

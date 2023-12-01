@@ -45,7 +45,7 @@ function Layout() {
   }, [auth, queryClient]);
 
   return auth ? (
-    <div>
+    <div className="grid grid-cols-[300px_1fr] bg-slate-100 min-h-screen">
       <Sidebar />
       <Outlet />
     </div>

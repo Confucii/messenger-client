@@ -4,10 +4,9 @@ const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
-      gridTemplateColumns: {
-        "13": "repeat(13, minmax(0, 1fr))",
+      boxShadow: {
+        bottom: "0 2px 4px -4px black",
       },
-      colors: {},
     },
     keyframes: {
       shimmer: {

@@ -9,15 +9,18 @@ function SidebarChat({ chat }: { chat: ChatInterface }) {
   const navigator = useNavigate();
 
   return (
-    <li onClick={() => navigator(`/chat/${chat.id}`)}>
-      <div>{chat.interlocutor}</div>
-      <div>
-        <span>
+    <li className="p-2" onClick={() => navigator(`/chat/${chat.id}`)}>
+      <div className="flex justify-between">
+        <span className="truncate mr-2">{chat.interlocutor}</span>
+        <span className="shrink-0">{message.timestamp}</span>
+      </div>
+      <div className="flex">
+        <span className="text-blue-400">
           {`${
             message.sender.id === user ? "You" : message.sender.displayName
-          }: ${message.text}`}
+          }:`}
         </span>
-        <span>{message.timestamp}</span>
+        <span className="ml-2 truncate">{message.text}</span>
       </div>
     </li>
   );
