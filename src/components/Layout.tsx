@@ -1,32 +1,48 @@
 import { Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Sidebar from "./Sidebar/Sidebar";
-import { useState } from "react";
+import { useEffect } from "react";
 import { socket } from "../socket";
+import { useQueryClient } from "react-query";
+import { ChatInterface } from "../interfaces";
 
 function Layout() {
+  const queryClient = useQueryClient();
   const auth = useAuth();
-  const [socketConnected, setSocketConnected] = useState(false);
 
-  /*const chat = useQuery({
-    queryKey: ["chats", "6556baf8e4d2fe3dd39deabe"],
-    queryFn: async () => {
-      const data = await getChat("6556baf8e4d2fe3dd39deabe");
-      return data;
-    },
-  });*/
-
-  if (auth && !socketConnected) {
+  useEffect(() => {
     socket.connect();
-    setSocketConnected(true);
     socket.emit("authorize", auth);
     socket.on("newMessage", (msg) => {
-      console.log(msg);
+      queryClient.setQueryData(
+        ["chats"],
+        (chats: ChatInterface[] | undefined) => {
+          const newChats = chats?.map((chat: ChatInterface) => {
+            if (chat.id === msg.chat) {
+              return { ...chat, messages: [msg] };
+            } else {
+              return chat;
+            }
+          });
+          return newChats || [];
+        }
+      );
+
+      queryClient.setQueryData<ChatInterface | undefined>(
+        ["chats", msg.chat],
+        (chat: ChatInterface | undefined) => {
+          if (chat) {
+            return { ...chat, messages: chat.messages.concat(msg) };
+          }
+        }
+      );
     });
-    socket.on("disconnect", () => {
-      setSocketConnected(false);
-    });
-  }
+
+    return () => {
+      socket.removeAllListeners();
+      socket.disconnect();
+    };
+  }, [auth, queryClient]);
 
   return auth ? (
     <div>

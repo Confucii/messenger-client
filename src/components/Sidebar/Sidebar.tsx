@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { getChats } from "../../requests/chatRequests";
 import SidebarChat from "./SidebarChat";
-import { Chat } from "../../interfaces";
+import { ChatInterface } from "../../interfaces";
 import NoChats from "./NoChats";
 import { useState } from "react";
 import Header from "./Header";
@@ -13,6 +13,7 @@ function Sidebar() {
     queryFn: getChats,
     refetchOnWindowFocus: false,
   }).data;
+
   const [filter, setFilter] = useState("");
   const userData = useQuery({
     queryKey: ["users", filter],
@@ -24,9 +25,7 @@ function Sidebar() {
     refetchOnWindowFocus: false,
   }).data;
 
-  console.log(userData);
-
-  const chats = chatData?.data.filter((chat: Chat) =>
+  const chats = chatData?.filter((chat: ChatInterface) =>
     chat.interlocutor.toLowerCase().includes(filter.toLowerCase())
   );
 
@@ -35,7 +34,9 @@ function Sidebar() {
       <Header setFilter={setFilter} />
       <ul>
         {chats?.length > 0 ? (
-          chats.map((chat: Chat) => <SidebarChat key={chat.id} chat={chat} />)
+          chats.map((chat: ChatInterface) => (
+            <SidebarChat key={chat.id} chat={chat} />
+          ))
         ) : (
           <NoChats />
         )}

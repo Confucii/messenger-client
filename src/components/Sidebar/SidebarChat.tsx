@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { Chat } from "../../interfaces";
+import { ChatInterface } from "../../interfaces";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function SidebarChat({ chat }: { chat: Chat }) {
+function SidebarChat({ chat }: { chat: ChatInterface }) {
   const { user } = useContext(AuthContext);
   const message = chat.messages[0];
   const navigator = useNavigate();

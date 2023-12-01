@@ -1,13 +1,12 @@
 import axios from "axios";
 
 export async function postMessage(text: string, chatId: string) {
-  const chat = await axios.post(
+  const message = await axios.post(
     `${import.meta.env.VITE_CLIENT_URL}/messages/${chatId}`,
-    text,
+    { text },
     {
       withCredentials: true,
     }
   );
-
-  return chat;
+  return message;
 }

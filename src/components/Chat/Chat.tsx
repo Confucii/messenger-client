@@ -1,6 +1,9 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getChat } from "../../requests/chatRequests";
+import TextInput from "./TextInput";
+import Message from "./Message";
+import { MessageInterface } from "../../interfaces";
 
 function Chat() {
   const { postId } = useParams();
@@ -16,9 +19,15 @@ function Chat() {
     refetchOnWindowFocus: false,
   }).data;
 
-  console.log(chat?.data);
-
-  return <div></div>;
+  return (
+    <div>
+      {chat &&
+        chat.messages.map((message: MessageInterface) => (
+          <Message key={message.id} message={message} />
+        ))}
+      <TextInput chatId={chat?.id} />
+    </div>
+  );
 }
 
 export default Chat;
