@@ -57,6 +57,9 @@ export async function getUsers(filter: string) {
         withCredentials: true,
       }
     );
-    return response;
+
+    const usersData = response.data;
+
+    return usersData;
   }
 }

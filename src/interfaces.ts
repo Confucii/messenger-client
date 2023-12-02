@@ -19,3 +19,9 @@ export interface ChatInterface {
   interlocutor: string;
   messages: MessageInterface[];
 }
+
+export interface UserInterface {
+  id: string;
+  displayName: string;
+  status: string;
+}
