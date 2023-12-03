@@ -38,6 +38,16 @@ function Layout() {
       );
     });
 
+    socket.on("newChat", (chat) => {
+      queryClient.setQueryData(
+        ["chats"],
+        (chats: ChatInterface[] | undefined) => {
+          const newChats = chats?.concat(chat);
+          return newChats || [];
+        }
+      );
+    });
+
     return () => {
       socket.removeAllListeners();
       socket.disconnect();

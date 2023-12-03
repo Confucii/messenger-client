@@ -22,3 +22,17 @@ export async function getChat(chatId: string) {
 
   return chatData;
 }
+
+export async function createChat(interlocutorId: string) {
+  const chat = await axios.post(
+    `${import.meta.env.VITE_CLIENT_URL}/chats`,
+    { recipient: interlocutorId },
+    {
+      withCredentials: true,
+    }
+  );
+
+  const chatData = chat.data;
+
+  return chatData;
+}

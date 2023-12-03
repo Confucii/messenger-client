@@ -2,12 +2,15 @@ import { useQuery } from "react-query";
 import { getChats } from "../../requests/chatRequests";
 import SidebarChat from "./SidebarChat";
 import { ChatInterface, UserInterface } from "../../interfaces";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Header from "./Header";
 import { getUsers } from "../../requests/userRequests";
 import FoundUsers from "./FoundUsers";
+import { AuthContext } from "../../contexts/AuthContext";
 
 function Sidebar() {
+  const { user } = useContext(AuthContext);
+
   const chatData = useQuery({
     queryKey: ["chats"],
     queryFn: getChats,
@@ -27,26 +30,24 @@ function Sidebar() {
   }).data;
 
   const chats = chatData?.filter((chat: ChatInterface) =>
-    chat.interlocutor.toLowerCase().includes(filter.toLowerCase())
+    chat.interlocutor.name.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const chatIds = chats?.map(
-    (chat: ChatInterface) => chat.messages[0].sender.id
-  );
+  const chatIds = chats
+    ?.map((chat: ChatInterface) => chat.interlocutor.id)
+    .concat(user);
 
   const users = userData?.filter(
     (user: UserInterface) => !chatIds?.includes(user.id)
   );
 
-  console.log(users);
-
   return (
     <div className="border-r-2 border-gray-400 py-2">
-      <Header setFilter={setFilter} />
+      <Header filter={filter} setFilter={setFilter} />
       <ul className="py-2">
         {chats?.length > 0 ? (
           chats.map((chat: ChatInterface) => (
-            <SidebarChat key={chat.id} chat={chat} />
+            <SidebarChat setFilter={setFilter} key={chat.id} chat={chat} />
           ))
         ) : filter ? (
           !(users?.length > 0) && (
@@ -56,7 +57,7 @@ function Sidebar() {
           <span className="flex justify-center">There are no chats yet</span>
         )}
       </ul>
-      {users?.length > 0 && <FoundUsers users={users} />}
+      {users?.length > 0 && <FoundUsers setFilter={setFilter} users={users} />}
     </div>
   );
 }

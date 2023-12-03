@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Register from "./components/Register/Register";
 import Placeholder from "./components/Placeholder/Placeholder";
 import Chat from "./components/Chat/Chat";
+import NewChat from "./components/Chat/NewChat";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { index: true, element: <Placeholder /> },
+      { path: "chat/new", element: <NewChat /> },
       { path: "chat/:postId", element: <Chat /> },
     ],
   },
