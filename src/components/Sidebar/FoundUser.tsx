@@ -18,7 +18,10 @@ function FoundUser({
   }
 
   return (
-    <li onClick={handleClick} className="p-2 cursor-pointer hover:shadow-xl">
+    <li
+      onClick={handleClick}
+      className="transition transform duration-300 hover:bg-slate-300 p-2 cursor-pointer"
+    >
       <div className="truncate">{user.displayName}</div>
       <div className="truncate">{user.status || "Im a new user"}</div>
     </li>

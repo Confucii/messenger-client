@@ -28,7 +28,7 @@ function TextInput({ chatId, userId }: { chatId: string; userId: string }) {
   }
 
   return (
-    <div>
+    <div className="row-start-3">
       <input
         type="text"
         name="message-input"

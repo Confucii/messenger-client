@@ -10,14 +10,13 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 function Sidebar() {
   const { user } = useContext(AuthContext);
+  const [filter, setFilter] = useState("");
 
   const chatData = useQuery({
     queryKey: ["chats"],
     queryFn: getChats,
     refetchOnWindowFocus: false,
   }).data;
-
-  const [filter, setFilter] = useState("");
 
   const userData = useQuery({
     queryKey: ["users", filter],

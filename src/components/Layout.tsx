@@ -1,14 +1,27 @@
 import { Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Sidebar from "./Sidebar/Sidebar";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { socket } from "../socket";
 import { useQueryClient } from "react-query";
 import { ChatInterface } from "../interfaces";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Layout() {
   const queryClient = useQueryClient();
   const auth = useAuth();
+  const context = useContext(AuthContext);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      context.dispatch({ type: "checkAuthStatus" });
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     socket.connect();

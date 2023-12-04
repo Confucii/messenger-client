@@ -38,10 +38,10 @@ function Login() {
   return context.user ? (
     <Navigate to={"/"} />
   ) : (
-    <div className="">
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <div className="">
+    <div className="h-screen flex flex-col justify-center items-center gap-1">
+      <h2 className="flex justify-center">Login</h2>
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+        <div className="flex flex-col">
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -51,7 +51,7 @@ function Login() {
             onChange={handleChange}
           />
         </div>
-        <div className="">
+        <div className="flex flex-col">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -62,7 +62,9 @@ function Login() {
           />
         </div>
         {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-        <button className="">Submit</button>
+        <button className="border-2 border-slate-300 hover:bg-cyan-300 rounded w-full">
+          Submit
+        </button>
       </form>
       <div>
         Need an account? <Link to={"/register"}>Sign up</Link>

@@ -42,10 +42,10 @@ function Register() {
   return context.user ? (
     <Navigate to={"/"} />
   ) : (
-    <div className="">
-      <form onSubmit={handleSubmit}>
-        <h2>Register</h2>
-        <div className="">
+    <div className="h-screen flex flex-col justify-center items-center gap-1">
+      <h2>Register</h2>
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+        <div className="flex flex-col">
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -55,7 +55,7 @@ function Register() {
             onChange={handleChange}
           />
         </div>
-        <div className="">
+        <div className="flex flex-col">
           <label htmlFor="displayName">Display Name</label>
           <input
             type="text"
@@ -65,7 +65,7 @@ function Register() {
             onChange={handleChange}
           />
         </div>
-        <div className="">
+        <div className="flex flex-col">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -75,7 +75,7 @@ function Register() {
             onChange={handleChange}
           />
         </div>
-        <div className="">
+        <div className="flex flex-col">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             type="password"
@@ -86,7 +86,9 @@ function Register() {
           />
         </div>
         {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-        <button className="">Submit</button>
+        <button className="border-2 border-slate-300 hover:bg-cyan-300 rounded w-full">
+          Submit
+        </button>
       </form>
       <div>
         Have an account? <Link to={"/login"}>Log in</Link>

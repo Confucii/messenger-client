@@ -21,7 +21,10 @@ function SidebarChat({
 
   return (
     message && (
-      <li className="p-2 hover:shadow-xl cursor-pointer" onClick={handleClick}>
+      <li
+        className="transition transform duration-300 hover:bg-slate-300 p-2 cursor-pointer"
+        onClick={handleClick}
+      >
         <div className="flex justify-between">
           <span className="truncate mr-2">{chat.interlocutor.name}</span>
           <span className="shrink-0">{message.timestamp}</span>
