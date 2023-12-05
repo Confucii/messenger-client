@@ -9,7 +9,7 @@ function Message({ message }: { message: MessageInterface }) {
 
   return (
     <div
-      className={`ml-2 mr-2 px-4 py-4 max-w-lg xl:max-w-2xl rounded-lg flex flex-col gap-2  ${
+      className={`ml-2 mr-2 px-4 py-4 md:max-w-sm l:max-w-lg xl:max-w-2xl rounded-lg flex flex-col gap-2  ${
         sender ? "bg-sky-500 self-end text-white" : "bg-white self-start"
       }`}
     >

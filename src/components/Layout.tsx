@@ -6,6 +6,7 @@ import { socket } from "../socket";
 import { useQueryClient } from "react-query";
 import { ChatInterface } from "../interfaces";
 import { AuthContext } from "../contexts/AuthContext";
+import Profile from "./Profile/Profile";
 
 function Layout() {
   const [profileModal, setProfileModal] = useState(false);
@@ -70,8 +71,9 @@ function Layout() {
 
   return auth ? (
     <div className="grid grid-cols-[350px_1fr] bg-slate-100 min-h-screen">
-      <Sidebar />
+      <Sidebar setProfileModal={setProfileModal} />
       <Outlet />
+      {profileModal && <Profile setProfileModal={setProfileModal} />}
     </div>
   ) : (
     <Navigate to={"/login"} />

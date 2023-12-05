@@ -8,7 +8,11 @@ import { getUsers } from "../../requests/userRequests";
 import FoundUsers from "./FoundUsers";
 import { AuthContext } from "../../contexts/AuthContext";
 
-function Sidebar() {
+function Sidebar({
+  setProfileModal,
+}: {
+  setProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const { user } = useContext(AuthContext);
   const [filter, setFilter] = useState("");
 
@@ -42,7 +46,11 @@ function Sidebar() {
 
   return (
     <div className="border-r-2 border-gray-400 py-2">
-      <Header filter={filter} setFilter={setFilter} />
+      <Header
+        setProfileModal={setProfileModal}
+        filter={filter}
+        setFilter={setFilter}
+      />
       <ul className="py-2">
         {chats?.length > 0 ? (
           chats.map((chat: ChatInterface) => (
