@@ -4,7 +4,14 @@ export interface AuthContextInterface {
 }
 
 export interface ResponseError {
-  response: { status: number; data: { error: string } };
+  response: {
+    status: number;
+    data: { error: { errors: { [key: string]: Dict } } };
+  };
+}
+
+export interface Dict {
+  [key: string]: string;
 }
 
 export interface MessageInterface {

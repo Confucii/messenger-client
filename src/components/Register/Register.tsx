@@ -3,6 +3,8 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { isResponseError } from "../../helpers/typeGuard";
 import { register } from "../../requests/userRequests";
+import ErrorMessage from "./ErrorMessage";
+import { Dict } from "../../interfaces";
 
 function Register() {
   const [form, setForm] = useState({
@@ -11,7 +13,7 @@ function Register() {
     confirmPassword: "",
     displayName: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<Dict>({});
   const context = useContext(AuthContext);
 
   const navigator = useNavigate();
@@ -30,11 +32,16 @@ function Register() {
     try {
       await register(form, navigator);
     } catch (error: unknown) {
-      console.log(error);
-
       if (isResponseError(error)) {
-        if (error.response.status === 400)
-          setErrorMessage(error.response.data.error);
+        if (error.response.status === 400) {
+          const newErrorMessages: Dict = {};
+          Object.entries(error.response.data.error.errors).forEach(
+            ([key, value]) => {
+              newErrorMessages[key] = value.message;
+            }
+          );
+          setErrorMessage(newErrorMessages);
+        }
       }
     }
   }
@@ -44,7 +51,7 @@ function Register() {
   ) : (
     <div className="h-screen flex flex-col justify-center items-center gap-1">
       <h2>Register</h2>
-      <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+      <form className="w-80 flex flex-col gap-2" onSubmit={handleSubmit}>
         <div className="flex flex-col">
           <label htmlFor="username">Username</label>
           <input
@@ -54,6 +61,7 @@ function Register() {
             value={form.username}
             onChange={handleChange}
           />
+          <ErrorMessage errorMessage={errorMessage["username"]} />
         </div>
         <div className="flex flex-col">
           <label htmlFor="displayName">Display Name</label>
@@ -64,6 +72,7 @@ function Register() {
             value={form.displayName}
             onChange={handleChange}
           />
+          <ErrorMessage errorMessage={errorMessage["displayName"]} />
         </div>
         <div className="flex flex-col">
           <label htmlFor="password">Password</label>
@@ -74,6 +83,7 @@ function Register() {
             value={form.password}
             onChange={handleChange}
           />
+          <ErrorMessage errorMessage={errorMessage["password"]} />
         </div>
         <div className="flex flex-col">
           <label htmlFor="confirmPassword">Confirm Password</label>
@@ -84,9 +94,9 @@ function Register() {
             value={form.confirmPassword}
             onChange={handleChange}
           />
+          <ErrorMessage errorMessage={errorMessage["confirmPassword"]} />
         </div>
-        {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-        <button className="border-2 border-slate-300 hover:bg-cyan-300 rounded w-full">
+        <button className="p-1 bg-blue-300 hover:bg-slate-200 rounded w-full">
           Submit
         </button>
       </form>

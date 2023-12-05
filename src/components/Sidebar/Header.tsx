@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import Search from "./Search";
+import profileImg from "../../assets/Profile.svg";
 
 function Header({
   filter,
@@ -9,8 +9,11 @@ function Header({
   setFilter: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
-    <div>
-      <Link to={"/profile"} /> <Search filter={filter} setFilter={setFilter} />
+    <div className="flex px-1 gap-2">
+      <button>
+        <img width={50} height={50} src={profileImg} alt="profile" />
+      </button>
+      <Search filter={filter} setFilter={setFilter} />
     </div>
   );
 }

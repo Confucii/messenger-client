@@ -30,7 +30,7 @@ function Login() {
     } catch (error: unknown) {
       if (isResponseError(error)) {
         if (error.response.status === 400)
-          setErrorMessage(error.response.data.error);
+          setErrorMessage(error.response.data.error.errors["login"].message);
       }
     }
   }
@@ -40,7 +40,7 @@ function Login() {
   ) : (
     <div className="h-screen flex flex-col justify-center items-center gap-1">
       <h2 className="flex justify-center">Login</h2>
-      <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+      <form className="w-80 flex flex-col gap-2" onSubmit={handleSubmit}>
         <div className="flex flex-col">
           <label htmlFor="username">Username</label>
           <input
@@ -62,7 +62,7 @@ function Login() {
           />
         </div>
         {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-        <button className="border-2 border-slate-300 hover:bg-cyan-300 rounded w-full">
+        <button className="p-1 bg-blue-300 hover:bg-slate-200 rounded w-full">
           Submit
         </button>
       </form>

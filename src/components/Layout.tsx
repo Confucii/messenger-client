@@ -1,13 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Sidebar from "./Sidebar/Sidebar";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { socket } from "../socket";
 import { useQueryClient } from "react-query";
 import { ChatInterface } from "../interfaces";
 import { AuthContext } from "../contexts/AuthContext";
 
 function Layout() {
+  const [profileModal, setProfileModal] = useState(false);
   const queryClient = useQueryClient();
   const auth = useAuth();
   const context = useContext(AuthContext);
@@ -68,7 +69,7 @@ function Layout() {
   }, [auth, queryClient]);
 
   return auth ? (
-    <div className="grid grid-cols-[300px_1fr] bg-slate-100 min-h-screen">
+    <div className="grid grid-cols-[350px_1fr] bg-slate-100 min-h-screen">
       <Sidebar />
       <Outlet />
     </div>

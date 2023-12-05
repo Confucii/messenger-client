@@ -9,6 +9,7 @@ function Search({
 }) {
   return (
     <input
+      className="rounded-xl w-full"
       type="text"
       name="filter"
       id="filter"
